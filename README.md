@@ -16,7 +16,7 @@ go-ods is a Go package designed to simplify reading and writing ODS (OpenDocumen
 To use this go-ods, [install Go](https://go.dev) and run:
 
 ```bash
-go get -u https://github.com/AlexJarrah/go-ods
+go get -u github.com/AlexJarrah/go-ods
 ```
 
 ## Usage
