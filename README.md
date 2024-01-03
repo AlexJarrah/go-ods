@@ -21,7 +21,7 @@ go get -u github.com/AlexJarrah/go-ods
 
 ## Usage
 
-```go
+````go
 package main
 
 import "github.com/AlexJarrah/go-ods"
@@ -37,6 +37,9 @@ func main() {
 	}
 	defer files.Close()
 
+	// Uncompress cells to improve consistency
+	data.Content = ods.Uncompress(data.Content, 20)
+
 	// Updating content data in a specific sheet
 	sheet := data.Content.Body.Spreadsheet.Table[1]
 	sheet.TableRow[1].TableCell[0].P = "updated value"
@@ -51,9 +54,9 @@ func main() {
 	if err := ods.Write(path, data, files); err != nil {
 		panic(err)
 	}
-}
-```
+}```
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/AlexJarrah/go-ods/blob/main/LICENSE) file for details.
+````
