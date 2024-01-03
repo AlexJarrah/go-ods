@@ -24,32 +24,32 @@ go get -u github.com/AlexJarrah/go-ods
 ```go
 package main
 
-import (
-	"log"
-
-	"github.com/AlexJarrah/go-ods"
-)
+import "github.com/AlexJarrah/go-ods"
 
 func main() {
-    // Specify a filepath
-    const path = "/home/user/Documents/example.ods"
+	// Specify a filepath
+	const path = "/home/alex/Downloads/Reselling (copy).ods"
 
-    // Reading data from the file
-	content, files, err := ods.Read(path)
+	// Reading data from the file
+	data, files, err := ods.Read(path)
 	if err != nil {
-		log.Panic(err)
+		panic(err)
 	}
 	defer files.Close()
 
 	// Updating content data in a specific sheet
-	sheet := content.Body.Spreadsheet.Table[1]
+	sheet := data.Content.Body.Spreadsheet.Table[1]
 	sheet.TableRow[1].TableCell[0].P = "updated value"
 	sheet.TableRow[2].TableCell[0].P = "updated value"
 	sheet.TableRow[2].TableCell[3].P = "updated value"
 
+	// Updating metadata
+	data.Meta.Meta.DocumentStatistic.CellCount = "1000"
+
 	// Writing new data to the file
-	if err := ods.Write(path, content, files); err != nil {
-		log.Panic(err)
+	data.Content.Body.Spreadsheet.Table[1] = sheet
+	if err := ods.Write(path, data, files); err != nil {
+		panic(err)
 	}
 }
 ```

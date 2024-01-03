@@ -4,38 +4,57 @@ import (
 	"archive/zip"
 	"encoding/xml"
 	"fmt"
+	"io"
 )
 
 // Extracts the spreadsheet data from an ODS file and provides access to the archive.
-func Read(filepath string) (content Content, r *zip.ReadCloser, err error) {
+func Read(filepath string) (data ODS, files *zip.ReadCloser, err error) {
 	// Open the ODS file as a zip archive
-	if r, err = zip.OpenReader(filepath); err != nil {
-		return Content{}, nil, fmt.Errorf("error opening ODS file: %v", err)
+	if files, err = zip.OpenReader(filepath); err != nil {
+		return ODS{}, nil, fmt.Errorf("error opening ODS file: %v", err)
 	}
 
 	// Iterate through the files within the zip archive
-	for _, file := range r.File {
-		// Find the "content.xml" file, which contains the spreadsheet data
-		if file.Name != "content.xml" {
-			continue
-		}
-
-		// Open the "content.xml" file for processing
+	for _, file := range files.File {
+		// Open the file for processing
 		rc, err := file.Open()
 		if err != nil {
-			return Content{}, nil, fmt.Errorf("error opening content.xml: %v", err)
+			return ODS{}, nil, fmt.Errorf("error opening file: %v", err)
 		}
 		defer rc.Close()
 
-		// Decode the XML content into the Content struct
-		if err = xml.NewDecoder(rc).Decode(&content); err != nil {
-			return Content{}, nil, fmt.Errorf("error decoding content.xml: %v", err)
-		}
+		// Decode the file contents into the ODS struct
+		switch file.Name {
+		case "content.xml":
+			if err = xml.NewDecoder(rc).Decode(&data.Content); err != nil {
+				return ODS{}, nil, fmt.Errorf("error decoding file: %v", err)
+			}
+		case "meta.xml":
+			if err = xml.NewDecoder(rc).Decode(&data.Meta); err != nil {
+				return ODS{}, nil, fmt.Errorf("error decoding file: %v", err)
+			}
+		case "manifest.rdf":
+			if err = xml.NewDecoder(rc).Decode(&data.Manifest); err != nil {
+				return ODS{}, nil, fmt.Errorf("error decoding file: %v", err)
+			}
+		case "settings.xml":
+			if err = xml.NewDecoder(rc).Decode(&data.Settings); err != nil {
+				return ODS{}, nil, fmt.Errorf("error decoding file: %v", err)
+			}
+		case "styles.xml":
+			if err = xml.NewDecoder(rc).Decode(&data.Styles); err != nil {
+				return ODS{}, nil, fmt.Errorf("error decoding file: %v", err)
+			}
+		case "mimetype":
+			contents, err := io.ReadAll(rc)
+			if err != nil {
+				return ODS{}, nil, fmt.Errorf("error reading file: %v", err)
+			}
 
-		// Break the loop, no other files need to be processed
-		break
+			data.Mimetype = Mimetype(contents)
+		}
 	}
 
 	// Return the decoded content, the zip reader (for potential further use), and any error
-	return content, r, nil
+	return data, files, nil
 }
