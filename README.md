@@ -21,7 +21,7 @@ go get -u github.com/AlexJarrah/go-ods
 
 ## Usage
 
-````go
+```go
 package main
 
 import "github.com/AlexJarrah/go-ods"
@@ -54,9 +54,9 @@ func main() {
 	if err := ods.Write(path, data, files); err != nil {
 		panic(err)
 	}
-}```
+}
+```
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/AlexJarrah/go-ods/blob/main/LICENSE) file for details.
-````
