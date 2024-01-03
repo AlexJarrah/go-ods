@@ -28,7 +28,7 @@ import "github.com/AlexJarrah/go-ods"
 
 func main() {
 	// Specify a filepath
-	const path = "/home/alex/Downloads/Reselling (copy).ods"
+	const path = "/home/user/Documents/example.ods"
 
 	// Reading data from the file
 	data, files, err := ods.Read(path)
