@@ -272,42 +272,42 @@ type TableCell struct {
 type contentMarshal struct {
 	XMLName         xml.Name               `xml:"office:document-content" json:"document-content,omitempty"`
 	Text            string                 `xml:",chardata" json:"text,omitempty"`
-	Presentation    string                 `xml:"xmlns:presentation,attr,omitempty" json:"presentation,omitempty"`
-	Css3t           string                 `xml:"xmlns:css3t,attr,omitempty" json:"css3t,omitempty"`
-	Grddl           string                 `xml:"xmlns:grddl,attr,omitempty" json:"grddl,omitempty"`
-	Xhtml           string                 `xml:"xmlns:xhtml,attr,omitempty" json:"xhtml,omitempty"`
-	Xsi             string                 `xml:"xmlns:xsi,attr,omitempty" json:"xsi,omitempty"`
-	Xsd             string                 `xml:"xmlns:xsd,attr,omitempty" json:"xsd,omitempty"`
-	Xforms          string                 `xml:"xmlns:xforms,attr,omitempty" json:"xforms,omitempty"`
-	Dom             string                 `xml:"xmlns:dom,attr,omitempty" json:"dom,omitempty"`
-	Script          string                 `xml:"xmlns:script,attr,omitempty" json:"script,omitempty"`
-	Form            string                 `xml:"xmlns:form,attr,omitempty" json:"form,omitempty"`
-	Math            string                 `xml:"xmlns:math,attr,omitempty" json:"math,omitempty"`
-	Office          string                 `xml:"xmlns:office,attr,omitempty" json:"office,omitempty"`
-	Ooo             string                 `xml:"xmlns:ooo,attr,omitempty" json:"ooo,omitempty"`
-	Fo              string                 `xml:"xmlns:fo,attr,omitempty" json:"fo,omitempty"`
-	Ooow            string                 `xml:"xmlns:ooow,attr,omitempty" json:"ooow,omitempty"`
-	Xlink           string                 `xml:"xmlns:xlink,attr,omitempty" json:"xlink,omitempty"`
-	Drawooo         string                 `xml:"xmlns:drawooo,attr,omitempty" json:"drawooo,omitempty"`
-	Oooc            string                 `xml:"xmlns:oooc,attr,omitempty" json:"oooc,omitempty"`
-	Dc              string                 `xml:"xmlns:dc,attr,omitempty" json:"dc,omitempty"`
-	Calcext         string                 `xml:"xmlns:calcext,attr,omitempty" json:"calcext,omitempty"`
-	Style           string                 `xml:"xmlns:style,attr,omitempty" json:"style,omitempty"`
-	AttrText        string                 `xml:"xmlns:text,attr,omitempty" json:"attrText,omitempty"`
-	Of              string                 `xml:"xmlns:of,attr,omitempty" json:"of,omitempty"`
-	Tableooo        string                 `xml:"xmlns:tableooo,attr,omitempty" json:"tableooo,omitempty"`
-	Draw            string                 `xml:"xmlns:draw,attr,omitempty" json:"draw,omitempty"`
-	Dr3d            string                 `xml:"xmlns:dr3d,attr,omitempty" json:"dr3d,omitempty"`
-	Rpt             string                 `xml:"xmlns:rpt,attr,omitempty" json:"rpt,omitempty"`
-	Formx           string                 `xml:"xmlns:formx,attr,omitempty" json:"formx,omitempty"`
-	SVG             string                 `xml:"xmlns:svg,attr,omitempty" json:"svg,omitempty"`
-	Chart           string                 `xml:"xmlns:chart,attr,omitempty" json:"chart,omitempty"`
-	Table           string                 `xml:"xmlns:table,attr,omitempty" json:"table,omitempty"`
-	Meta            string                 `xml:"xmlns:meta,attr,omitempty" json:"meta,omitempty"`
-	Loext           string                 `xml:"xmlns:loext,attr,omitempty" json:"loext,omitempty"`
-	Number          string                 `xml:"xmlns:number,attr,omitempty" json:"number,omitempty"`
-	Field           string                 `xml:"xmlns:field,attr,omitempty" json:"field,omitempty"`
-	Version         string                 `xml:"office:version,attr,omitempty" json:"version,omitempty"`
+	Presentation    string                 `xml:"xmlns:presentation,attr" json:"presentation,omitempty"`
+	Css3t           string                 `xml:"xmlns:css3t,attr" json:"css3t,omitempty"`
+	Grddl           string                 `xml:"xmlns:grddl,attr" json:"grddl,omitempty"`
+	Xhtml           string                 `xml:"xmlns:xhtml,attr" json:"xhtml,omitempty"`
+	Xsi             string                 `xml:"xmlns:xsi,attr" json:"xsi,omitempty"`
+	Xsd             string                 `xml:"xmlns:xsd,attr" json:"xsd,omitempty"`
+	Xforms          string                 `xml:"xmlns:xforms,attr" json:"xforms,omitempty"`
+	Dom             string                 `xml:"xmlns:dom,attr" json:"dom,omitempty"`
+	Script          string                 `xml:"xmlns:script,attr" json:"script,omitempty"`
+	Form            string                 `xml:"xmlns:form,attr" json:"form,omitempty"`
+	Math            string                 `xml:"xmlns:math,attr" json:"math,omitempty"`
+	Office          string                 `xml:"xmlns:office,attr" json:"office,omitempty"`
+	Ooo             string                 `xml:"xmlns:ooo,attr" json:"ooo,omitempty"`
+	Fo              string                 `xml:"xmlns:fo,attr" json:"fo,omitempty"`
+	Ooow            string                 `xml:"xmlns:ooow,attr" json:"ooow,omitempty"`
+	Xlink           string                 `xml:"xmlns:xlink,attr" json:"xlink,omitempty"`
+	Drawooo         string                 `xml:"xmlns:drawooo,attr" json:"drawooo,omitempty"`
+	Oooc            string                 `xml:"xmlns:oooc,attr" json:"oooc,omitempty"`
+	Dc              string                 `xml:"xmlns:dc,attr" json:"dc,omitempty"`
+	Calcext         string                 `xml:"xmlns:calcext,attr" json:"calcext,omitempty"`
+	Style           string                 `xml:"xmlns:style,attr" json:"style,omitempty"`
+	AttrText        string                 `xml:"xmlns:text,attr" json:"attrText,omitempty"`
+	Of              string                 `xml:"xmlns:of,attr" json:"of,omitempty"`
+	Tableooo        string                 `xml:"xmlns:tableooo,attr" json:"tableooo,omitempty"`
+	Draw            string                 `xml:"xmlns:draw,attr" json:"draw,omitempty"`
+	Dr3d            string                 `xml:"xmlns:dr3d,attr" json:"dr3d,omitempty"`
+	Rpt             string                 `xml:"xmlns:rpt,attr" json:"rpt,omitempty"`
+	Formx           string                 `xml:"xmlns:formx,attr" json:"formx,omitempty"`
+	SVG             string                 `xml:"xmlns:svg,attr" json:"svg,omitempty"`
+	Chart           string                 `xml:"xmlns:chart,attr" json:"chart,omitempty"`
+	Table           string                 `xml:"xmlns:table,attr" json:"table,omitempty"`
+	Meta            string                 `xml:"xmlns:meta,attr" json:"meta,omitempty"`
+	Loext           string                 `xml:"xmlns:loext,attr" json:"loext,omitempty"`
+	Number          string                 `xml:"xmlns:number,attr" json:"number,omitempty"`
+	Field           string                 `xml:"xmlns:field,attr" json:"field,omitempty"`
+	Version         string                 `xml:"office:version,attr" json:"version,omitempty"`
 	Scripts         string                 `xml:"office:scripts" json:"scripts,omitempty"`
 	FontFaceDecls   fontFaceDeclsMarshal   `xml:"office:font-face-decls" json:"font-face-decls,omitempty"`
 	AutomaticStyles automaticStylesMarshal `xml:"office:automatic-styles" json:"automatic-styles,omitempty"`
@@ -321,10 +321,10 @@ type fontFaceDeclsMarshal struct {
 
 type fontFaceMarshal struct {
 	Text              string `xml:",chardata" json:"text,omitempty"`
-	Name              string `xml:"style:name,attr,omitempty" json:"name,omitempty"`
-	FontFamily        string `xml:"svg:font-family,attr,omitempty" json:"font-family,omitempty"`
-	FontFamilyGeneric string `xml:"style:font-family-generic,attr,omitempty" json:"font-family-generic,omitempty"`
-	FontPitch         string `xml:"style:font-pitch,attr,omitempty" json:"font-pitch,omitempty"`
+	Name              string `xml:"style:name,attr" json:"name,omitempty"`
+	FontFamily        string `xml:"svg:font-family,attr" json:"font-family,omitempty"`
+	FontFamilyGeneric string `xml:"style:font-family-generic,attr" json:"font-family-generic,omitempty"`
+	FontPitch         string `xml:"style:font-pitch,attr" json:"font-pitch,omitempty"`
 }
 
 type automaticStylesMarshal struct {
@@ -336,11 +336,11 @@ type automaticStylesMarshal struct {
 
 type styleMarshal struct {
 	Text                  string                       `xml:",chardata" json:"text,omitempty"`
-	Name                  string                       `xml:"style:name,attr,omitempty" json:"name,omitempty"`
-	Family                string                       `xml:"style:family,attr,omitempty" json:"family,omitempty"`
-	MasterPageName        string                       `xml:"style:master-page-name,attr,omitempty" json:"master-page-name,omitempty"`
-	ParentStyleName       string                       `xml:"style:parent-style-name,attr,omitempty" json:"parent-style-name,omitempty"`
-	DataStyleName         string                       `xml:"style:data-style-name,attr,omitempty" json:"data-style-name,omitempty"`
+	Name                  string                       `xml:"style:name,attr" json:"name,omitempty"`
+	Family                string                       `xml:"style:family,attr" json:"family,omitempty"`
+	MasterPageName        string                       `xml:"style:master-page-name,attr" json:"master-page-name,omitempty"`
+	ParentStyleName       string                       `xml:"style:parent-style-name,attr" json:"parent-style-name,omitempty"`
+	DataStyleName         string                       `xml:"style:data-style-name,attr" json:"data-style-name,omitempty"`
 	TableColumnProperties tableColumnPropertiesMarshal `xml:"style:table-column-properties" json:"table-column-properties,omitempty"`
 	TableRowProperties    tableRowPropertiesMarshal    `xml:"style:table-row-properties" json:"table-row-properties,omitempty"`
 	TableProperties       tablePropertiesMarshal       `xml:"style:table-properties" json:"table-properties,omitempty"`
@@ -351,51 +351,51 @@ type styleMarshal struct {
 
 type tableColumnPropertiesMarshal struct {
 	Text        string `xml:",chardata" json:"text,omitempty"`
-	BreakBefore string `xml:"fo:break-before,attr,omitempty" json:"break-before,omitempty"`
-	ColumnWidth string `xml:"style:column-width,attr,omitempty" json:"column-width,omitempty"`
+	BreakBefore string `xml:"fo:break-before,attr" json:"break-before,omitempty"`
+	ColumnWidth string `xml:"style:column-width,attr" json:"column-width,omitempty"`
 }
 
 type tableRowPropertiesMarshal struct {
 	Text                string `xml:",chardata" json:"text,omitempty"`
-	RowHeight           string `xml:"style:row-height,attr,omitempty" json:"row-height,omitempty"`
-	BreakBefore         string `xml:"fo:break-before,attr,omitempty" json:"break-before,omitempty"`
-	UseOptimalRowHeight string `xml:"style:use-optimal-row-height,attr,omitempty" json:"use-optimal-row-height,omitempty"`
+	RowHeight           string `xml:"style:row-height,attr" json:"row-height,omitempty"`
+	BreakBefore         string `xml:"fo:break-before,attr" json:"break-before,omitempty"`
+	UseOptimalRowHeight string `xml:"style:use-optimal-row-height,attr" json:"use-optimal-row-height,omitempty"`
 }
 
 type tablePropertiesMarshal struct {
 	Text        string `xml:",chardata" json:"text,omitempty"`
-	Display     string `xml:"table:display,attr,omitempty" json:"display,omitempty"`
-	WritingMode string `xml:"style:writing-mode,attr,omitempty" json:"writing-mode,omitempty"`
+	Display     string `xml:"table:display,attr" json:"display,omitempty"`
+	WritingMode string `xml:"style:writing-mode,attr" json:"writing-mode,omitempty"`
 }
 
 type tableCellPropertiesMarshal struct {
 	Text            string `xml:",chardata" json:"text,omitempty"`
-	BackgroundColor string `xml:"fo:background-color,attr,omitempty" json:"background-color,omitempty"`
-	TextAlignSource string `xml:"style:text-align-source,attr,omitempty" json:"text-align-source,omitempty"`
-	RepeatContent   string `xml:"style:repeat-content,attr,omitempty" json:"repeat-content,omitempty"`
-	Border          string `xml:"fo:border,attr,omitempty" json:"border,omitempty"`
+	BackgroundColor string `xml:"fo:background-color,attr" json:"background-color,omitempty"`
+	TextAlignSource string `xml:"style:text-align-source,attr" json:"text-align-source,omitempty"`
+	RepeatContent   string `xml:"style:repeat-content,attr" json:"repeat-content,omitempty"`
+	Border          string `xml:"fo:border,attr" json:"border,omitempty"`
 }
 
 type paragraphPropertiesMarshal struct {
 	Text       string `xml:",chardata" json:"text,omitempty"`
-	TextAlign  string `xml:"fo:text-align,attr,omitempty" json:"text-align,omitempty"`
-	MarginLeft string `xml:"fo:margin-left,attr,omitempty" json:"margin-left,omitempty"`
+	TextAlign  string `xml:"fo:text-align,attr" json:"text-align,omitempty"`
+	MarginLeft string `xml:"fo:margin-left,attr" json:"margin-left,omitempty"`
 }
 
 type textPropertiesMarshal struct {
 	Text              string `xml:",chardata" json:"text,omitempty"`
-	FontSize          string `xml:"fo:font-size,attr,omitempty" json:"font-size,omitempty"`
-	FontWeight        string `xml:"fo:font-weight,attr,omitempty" json:"font-weight,omitempty"`
-	FontSizeAsian     string `xml:"style:font-size-asian,attr,omitempty" json:"font-size-asian,omitempty"`
-	FontWeightAsian   string `xml:"style:font-weight-asian,attr,omitempty" json:"font-weight-asian,omitempty"`
-	FontSizeComplex   string `xml:"style:font-size-complex,attr,omitempty" json:"font-size-complex,omitempty"`
-	FontWeightComplex string `xml:"style:font-weight-complex,attr,omitempty" json:"font-weight-complex,omitempty"`
+	FontSize          string `xml:"fo:font-size,attr" json:"font-size,omitempty"`
+	FontWeight        string `xml:"fo:font-weight,attr" json:"font-weight,omitempty"`
+	FontSizeAsian     string `xml:"style:font-size-asian,attr" json:"font-size-asian,omitempty"`
+	FontWeightAsian   string `xml:"style:font-weight-asian,attr" json:"font-weight-asian,omitempty"`
+	FontSizeComplex   string `xml:"style:font-size-complex,attr" json:"font-size-complex,omitempty"`
+	FontWeightComplex string `xml:"style:font-weight-complex,attr" json:"font-weight-complex,omitempty"`
 }
 
 type dateStyleMarshal struct {
 	Chardata       string       `xml:",chardata" json:"chardata,omitempty"`
-	Name           string       `xml:"style:name,attr,omitempty" json:"name,omitempty"`
-	AutomaticOrder string       `xml:"number:automatic-order,attr,omitempty" json:"automatic-order,omitempty"`
+	Name           string       `xml:"style:name,attr" json:"name,omitempty"`
+	AutomaticOrder string       `xml:"number:automatic-order,attr" json:"automatic-order,omitempty"`
 	Month          monthMarshal `xml:"number:month" json:"month,omitempty"`
 	Text           []string     `xml:"number:text" json:"text,omitempty"`
 	Day            dayMarshal   `xml:"number:day" json:"day,omitempty"`
@@ -404,20 +404,20 @@ type dateStyleMarshal struct {
 
 type monthMarshal struct {
 	Text  string `xml:",chardata" json:"text,omitempty"`
-	Style string `xml:"number:style,attr,omitempty" json:"style,omitempty"`
+	Style string `xml:"number:style,attr" json:"style,omitempty"`
 }
 
 type dayMarshal struct {
 	Text  string `xml:",chardata" json:"text,omitempty"`
-	Style string `xml:"number:style,attr,omitempty" json:"style,omitempty"`
+	Style string `xml:"number:style,attr" json:"style,omitempty"`
 }
 
 type CurrencyStyleMarshal struct {
 	Chardata       string                 `xml:",chardata" json:"chardata,omitempty"`
-	Name           string                 `xml:"number:name,attr,omitempty" json:"name,omitempty"`
-	Volatile       string                 `xml:"style:volatile,attr,omitempty" json:"volatile,omitempty"`
-	Language       string                 `xml:"number:language,attr,omitempty" json:"language,omitempty"`
-	Country        string                 `xml:"number:country,attr,omitempty" json:"country,omitempty"`
+	Name           string                 `xml:"number:name,attr" json:"name,omitempty"`
+	Volatile       string                 `xml:"style:volatile,attr" json:"volatile,omitempty"`
+	Language       string                 `xml:"number:language,attr" json:"language,omitempty"`
+	Country        string                 `xml:"number:country,attr" json:"country,omitempty"`
 	CurrencySymbol currencySymbolMarshal  `xml:"number:currency-symbol" json:"currency-symbol,omitempty"`
 	Number         numberMarshal          `xml:"number:number" json:"number,omitempty"`
 	TextProperties textProperties0Marshal `xml:"style:text-properties" json:"text-properties,omitempty"`
@@ -427,27 +427,27 @@ type CurrencyStyleMarshal struct {
 
 type currencySymbolMarshal struct {
 	Text     string `xml:",chardata" json:"text,omitempty"`
-	Language string `xml:"number:language,attr,omitempty" json:"language,omitempty"`
-	Country  string `xml:"number:country,attr,omitempty" json:"country,omitempty"`
+	Language string `xml:"number:language,attr" json:"language,omitempty"`
+	Country  string `xml:"number:country,attr" json:"country,omitempty"`
 }
 
 type numberMarshal struct {
 	Text             string `xml:",chardata" json:"text,omitempty"`
-	DecimalPlaces    string `xml:"number:decimal-places,attr,omitempty" json:"decimal-places,omitempty"`
-	MinDecimalPlaces string `xml:"number:min-decimal-places,attr,omitempty" json:"min-decimal-places,omitempty"`
-	MinIntegerDigits string `xml:"number:min-integer-digits,attr,omitempty" json:"min-integer-digits,omitempty"`
-	Grouping         string `xml:"number:grouping,attr,omitempty" json:"grouping,omitempty"`
+	DecimalPlaces    string `xml:"number:decimal-places,attr" json:"decimal-places,omitempty"`
+	MinDecimalPlaces string `xml:"number:min-decimal-places,attr" json:"min-decimal-places,omitempty"`
+	MinIntegerDigits string `xml:"number:min-integer-digits,attr" json:"min-integer-digits,omitempty"`
+	Grouping         string `xml:"number:grouping,attr" json:"grouping,omitempty"`
 }
 
 type textProperties0Marshal struct {
 	Text  string `xml:",chardata" json:"text,omitempty"`
-	Color string `xml:"fo:color,attr,omitempty" json:"color,omitempty"`
+	Color string `xml:"fo:color,attr" json:"color,omitempty"`
 }
 
 type mapMarshal struct {
 	Text           string `xml:",chardata" json:"text,omitempty"`
-	Condition      string `xml:"style:condition,attr,omitempty" json:"condition,omitempty"`
-	ApplyStyleName string `xml:"style:apply-style-name,attr,omitempty" json:"apply-style-name,omitempty"`
+	Condition      string `xml:"style:condition,attr" json:"condition,omitempty"`
+	ApplyStyleName string `xml:"style:apply-style-name,attr" json:"apply-style-name,omitempty"`
 }
 
 type bodyMarshal struct {
@@ -464,22 +464,22 @@ type spreadsheetMarshal struct {
 
 type calculationSettingsMarshal struct {
 	Text                  string           `xml:",chardata" json:"text,omitempty"`
-	CaseSensitive         string           `xml:"table:case-sensitive,attr,omitempty" json:"case-sensitive,omitempty"`
-	AutomaticFindLabels   string           `xml:"table:automatic-find-labels,attr,omitempty" json:"automatic-find-labels,omitempty"`
-	UseRegularExpressions string           `xml:"table:use-regular-expressions,attr,omitempty" json:"use-regular-expressions,omitempty"`
-	UseWildcards          string           `xml:"table:use-wildcards,attr,omitempty" json:"use-wildcards,omitempty"`
+	CaseSensitive         string           `xml:"table:case-sensitive,attr" json:"case-sensitive,omitempty"`
+	AutomaticFindLabels   string           `xml:"table:automatic-find-labels,attr" json:"automatic-find-labels,omitempty"`
+	UseRegularExpressions string           `xml:"table:use-regular-expressions,attr" json:"use-regular-expressions,omitempty"`
+	UseWildcards          string           `xml:"table:use-wildcards,attr" json:"use-wildcards,omitempty"`
 	Iteration             iterationMarshal `xml:"table:iteration" json:"iteration,omitempty"`
 }
 
 type iterationMarshal struct {
 	Text              string `xml:",chardata" json:"text,omitempty"`
-	MaximumDifference string `xml:"table:maximum-difference,attr,omitempty" json:"maximum-difference,omitempty"`
+	MaximumDifference string `xml:"table:maximum-difference,attr" json:"maximum-difference,omitempty"`
 }
 
 type tableMarshal struct {
 	Text        string               `xml:",chardata" json:"text,omitempty"`
-	Name        string               `xml:"table:name,attr,omitempty" json:"name,omitempty"`
-	StyleName   string               `xml:"table:style-name,attr,omitempty" json:"style-name,omitempty"`
+	Name        string               `xml:"table:name,attr" json:"name,omitempty"`
+	StyleName   string               `xml:"table:style-name,attr" json:"style-name,omitempty"`
 	Forms       formsMarshal         `xml:"office:forms" json:"forms,omitempty"`
 	TableColumn []tableColumnMarshal `xml:"table:table-column" json:"table-column,omitempty"`
 	TableRow    []tableRowMarshal    `xml:"table:table-row" json:"table-row,omitempty"`
@@ -487,34 +487,34 @@ type tableMarshal struct {
 
 type formsMarshal struct {
 	Text            string `xml:",chardata" json:"text,omitempty"`
-	AutomaticFocus  string `xml:"form:automatic-focus,attr,omitempty" json:"automatic-focus,omitempty"`
-	ApplyDesignMode string `xml:"form:apply-design-mode,attr,omitempty" json:"apply-design-mode,omitempty"`
+	AutomaticFocus  string `xml:"form:automatic-focus,attr" json:"automatic-focus,omitempty"`
+	ApplyDesignMode string `xml:"form:apply-design-mode,attr" json:"apply-design-mode,omitempty"`
 }
 
 type tableColumnMarshal struct {
 	Text                  string `xml:",chardata" json:"text,omitempty"`
-	StyleName             string `xml:"table:style-name,attr,omitempty" json:"style-name,omitempty"`
-	NumberColumnsRepeated string `xml:"table:number-columns-repeated,attr,omitempty" json:"number-columns-repeated,omitempty"`
-	DefaultCellStyleName  string `xml:"table:default-cell-style-name,attr,omitempty" json:"default-cell-style-name,omitempty"`
+	StyleName             string `xml:"table:style-name,attr" json:"style-name,omitempty"`
+	NumberColumnsRepeated string `xml:"table:number-columns-repeated,attr" json:"number-columns-repeated,omitempty"`
+	DefaultCellStyleName  string `xml:"table:default-cell-style-name,attr" json:"default-cell-style-name,omitempty"`
 }
 
 type tableRowMarshal struct {
 	Text               string             `xml:",chardata" json:"text,omitempty"`
-	StyleName          string             `xml:"table:style-name,attr,omitempty" json:"style-name,omitempty"`
-	NumberRowsRepeated string             `xml:"table:number-rows-repeated,attr,omitempty" json:"number-rows-repeated,omitempty"`
+	StyleName          string             `xml:"table:style-name,attr" json:"style-name,omitempty"`
+	NumberRowsRepeated string             `xml:"table:number-rows-repeated,attr" json:"number-rows-repeated,omitempty"`
 	TableCell          []tableCellMarshal `xml:"table:table-cell" json:"table-cell,omitempty"`
 }
 
 type tableCellMarshal struct {
 	Text                  string `xml:",chardata" json:"text,omitempty"`
-	StyleName             string `xml:"table:style-name,attr,omitempty" json:"style-name,omitempty"`
-	ValueType             string `xml:"office:value-type,attr,omitempty" json:"value-type,omitempty"`
-	ValueType0            string `xml:"calcext:value-type,attr,omitempty" json:"value-type0,omitempty"`
-	NumberColumnsRepeated string `xml:"table:number-columns-repeated,attr,omitempty" json:"number-columns-repeated,omitempty"`
-	Formula               string `xml:"table:formula,attr,omitempty" json:"formula,omitempty"`
-	Value                 string `xml:"office:value,attr,omitempty" json:"value,omitempty"`
-	Currency              string `xml:"office:currency,attr,omitempty" json:"currency,omitempty"`
-	DateValue             string `xml:"office:date-value,attr,omitempty" json:"date-value,omitempty"`
+	StyleName             string `xml:"table:style-name,attr" json:"style-name,omitempty"`
+	ValueType             string `xml:"office:value-type,attr" json:"value-type,omitempty"`
+	ValueType0            string `xml:"calcext:value-type,attr" json:"value-type0,omitempty"`
+	NumberColumnsRepeated string `xml:"table:number-columns-repeated,attr" json:"number-columns-repeated,omitempty"`
+	Formula               string `xml:"table:formula,attr" json:"formula,omitempty"`
+	Value                 string `xml:"office:value,attr" json:"value,omitempty"`
+	Currency              string `xml:"office:currency,attr" json:"currency,omitempty"`
+	DateValue             string `xml:"office:date-value,attr" json:"date-value,omitempty"`
 	P                     string `xml:"text:p" json:"p,omitempty"`
 }
 
