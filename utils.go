@@ -18,29 +18,37 @@ func Uncompress(content Content, ignore int) Content {
 		for _, row := range rows {
 			cells := row.TableCell
 
-			for i, cell := range cells {
+			// Create a new slice for the row's cells
+			newCells := make([]TableCell, 0, len(cells))
+
+			for _, cell := range cells {
 				// Retrieve the number of cell repetitions
 				repetitions := getRepetitionCount(cell)
+
+				// Ensure we don't corrupt the file by adding too many rows/columns
+				// by avoiding uncompressing the end of a row or column
+				if repetitions > ignore {
+					newCells = append(newCells, cell)
+					continue
+				}
 
 				// Reset the number of repetitions, as they are no longer needed
 				cell.NumberColumnsRepeated = ""
 
-				// Ensure we don't corrupt the file by adding too many rows/columns
-				// by avoiding uncompressing the ending of a row or column
-				if repetitions > ignore {
-					continue
-				}
-
 				// Insert a copy of the cell at the same index in the row for
 				// each repetition
-				for j := 2; j <= repetitions; j++ {
-					row.TableCell = append(row.TableCell[:i], row.TableCell[i+1:]...)
-					row.TableCell = append(row.TableCell[:i], append([]TableCell{cell}, row.TableCell[i:]...)...)
-					row.TableCell = append(row.TableCell[:i], append([]TableCell{cell}, row.TableCell[i:]...)...)
+				for j := 0; j < repetitions; j++ {
+					newCells = append(newCells, cell)
 				}
 			}
+
+			row.TableCell = newCells
 		}
+
+		sheet.TableRow = rows
 	}
+
+	content.Body.Spreadsheet.Table = sheets
 
 	return content
 }
