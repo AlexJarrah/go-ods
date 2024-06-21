@@ -10,8 +10,32 @@ import (
 	"os"
 )
 
-// Updates the specified ODS file with the provided content
+// Write Updates the specified ODS file with the provided content
 func Write(filepath string, ods ODS, files *zip.ReadCloser) error {
+	buf := new(bytes.Buffer)
+
+	err := WriteTo(buf, ods, files)
+	if err != nil {
+		return err
+	}
+
+	outputFile, err := os.Create(filepath)
+	if err != nil {
+		return fmt.Errorf("error creating output file: %v", err)
+	}
+	defer outputFile.Close()
+
+	// Write the new ODS file
+	_, err = outputFile.Write(buf.Bytes())
+	if err != nil {
+		return fmt.Errorf("error writing to file: %v", err)
+	}
+
+	return nil
+}
+
+// WriteTo Updates the specified io.Writer with the provided content
+func WriteTo(writer io.Writer, ods ODS, files *zip.ReadCloser) error {
 	// Translate the content for XML compatibility
 	odsMarshal, err := translate(ods)
 	if err != nil {
@@ -45,8 +69,7 @@ func Write(filepath string, ods ODS, files *zip.ReadCloser) error {
 	}
 
 	// Create a new zip archive in memory
-	buf := new(bytes.Buffer)
-	w := zip.NewWriter(buf)
+	w := zip.NewWriter(writer)
 
 	// Add files to the archive, updating "content.xml" with the modified data
 	for _, file := range files.File {
@@ -104,18 +127,6 @@ func Write(filepath string, ods ODS, files *zip.ReadCloser) error {
 	// Close the zip writer
 	if err := w.Close(); err != nil {
 		return fmt.Errorf("error closing archive: %v", err)
-	}
-
-	outputFile, err := os.Create(filepath)
-	if err != nil {
-		return fmt.Errorf("error creating output file: %v", err)
-	}
-	defer outputFile.Close()
-
-	// Write the new ODS file
-	_, err = outputFile.Write(buf.Bytes())
-	if err != nil {
-		return fmt.Errorf("error writing to file: %v", err)
 	}
 
 	return nil
