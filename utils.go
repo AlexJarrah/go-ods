@@ -15,7 +15,7 @@ func Uncompress(content Content, ignore int) Content {
 	for _, sheet := range sheets {
 		rows := sheet.TableRow
 
-		for _, row := range rows {
+		for ridx, row := range rows {
 			cells := row.TableCell
 
 			// Create a new slice for the row's cells
@@ -42,7 +42,7 @@ func Uncompress(content Content, ignore int) Content {
 				}
 			}
 
-			row.TableCell = newCells
+			rows[ridx].TableCell = newCells
 		}
 
 		sheet.TableRow = rows
