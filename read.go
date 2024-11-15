@@ -2,16 +2,45 @@ package ods
 
 import (
 	"archive/zip"
+	"bytes"
 	"encoding/xml"
 	"fmt"
 	"io"
+	"os"
 )
 
-// Extracts the spreadsheet data from an ODS file and provides access to the archive.
-func Read(filepath string) (data ODS, files *zip.ReadCloser, err error) {
+// Read the spreadsheet data from an ODS file and provides access to the archive.
+func Read(filepath string) (ODS, *zip.ReadCloser, error) {
 	// Open the ODS file as a zip archive
-	if files, err = zip.OpenReader(filepath); err != nil {
+	files, err := os.Open(filepath)
+	if err != nil {
 		return ODS{}, nil, fmt.Errorf("error opening ODS file: %v", err)
+	}
+	defer files.Close()
+
+	// Get the file stats
+	fileInfo, err := files.Stat()
+	if err != nil {
+		return ODS{}, nil, fmt.Errorf("error getting file info: %v", err)
+	}
+
+	return ReadFrom(files, fileInfo.Size())
+}
+
+// ReadFrom Read the data from io reader of provided size.
+func ReadFrom(reader io.Reader, size int64) (ODS, *zip.ReadCloser, error) {
+	buf := new(bytes.Buffer)
+	data := ODS{}
+
+	// Copy data from the reader to the buffer
+	_, err := io.Copy(buf, reader)
+	if err != nil {
+		return data, nil, fmt.Errorf("error copying data: %v", err)
+	}
+
+	files, err := zip.NewReader(bytes.NewReader(buf.Bytes()), size)
+	if err != nil {
+		return data, nil, fmt.Errorf("error creating zip archive: %v", err)
 	}
 
 	// Iterate through the files within the zip archive
@@ -19,7 +48,7 @@ func Read(filepath string) (data ODS, files *zip.ReadCloser, err error) {
 		// Open the file for processing
 		rc, err := file.Open()
 		if err != nil {
-			return ODS{}, nil, fmt.Errorf("error opening file: %v", err)
+			return data, nil, fmt.Errorf("error opening file: %v", err)
 		}
 		defer rc.Close()
 
@@ -56,5 +85,5 @@ func Read(filepath string) (data ODS, files *zip.ReadCloser, err error) {
 	}
 
 	// Return the decoded content, the zip reader (for potential further use), and any error
-	return data, files, nil
+	return data, &zip.ReadCloser{Reader: *files}, nil
 }
