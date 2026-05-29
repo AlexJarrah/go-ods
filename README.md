@@ -1,62 +1,69 @@
 # go-ods
 
-## Overview
+Go library for reading, writing, and modifying OpenDocument Spreadsheet (ODS) files.
 
-go-ods is a Go package designed to simplify reading and writing ODS (OpenDocument Spreadsheet) files. With this library, you can seamlessly work with ODS files in your Go applications, providing support for common spreadsheet operations.
+Designed to provide a reliable, performant, and simple API for ODS documents. Archives, XML structures, repeated rows, and other spreadsheet internals are handled automatically.
 
 ## Features
 
-- Read ODS Files: Easily parse and extract data from ODS files.
-- Write ODS Files: Update ODS files with new/updated data.
-- Cell Manipulation: Perform operations on individual cells, such as setting values, formatting, and more.
-- Sheet Handling: Manage multiple sheets within a single ODS file effortlessly.
+- Create, read, and modify ODF spreadsheets
+- Manage sheets, rows, columns, and cells
+- Set values, formulas, and styles
+- Automatic row and cell growth
+- Efficient row and column repetition handling
+- Pure Go, no external dependencies
 
 ## Installation
-
-To use this go-ods, [install Go](https://go.dev) and run:
 
 ```bash
 go get -u github.com/AlexJarrah/go-ods
 ```
 
-## Usage
+## Example
 
 ```go
 package main
 
-import "github.com/AlexJarrah/go-ods"
+import (
+	"fmt"
+
+	"github.com/AlexJarrah/go-ods"
+)
 
 func main() {
-	// Specify a filepath
-	const path = "/home/user/Documents/example.ods"
-
-	// Reading data from the file
-	data, files, err := ods.Read(path)
+	// Open existing document
+	doc, err := ods.Open("example.ods")
 	if err != nil {
 		panic(err)
 	}
-	defer files.Close()
 
-	// Uncompress cells to improve consistency
-	data.Content = ods.Uncompress(data.Content, 20)
+	// Modify document
+	doc.SetTitle("Example")
+	doc.SetDescription("Demonstration of go-ods")
 
-	// Updating content data in a specific sheet
-	sheet := data.Content.Body.Spreadsheet.Table[1]
-	sheet.TableRow[1].TableCell[0].P = "updated value"
-	sheet.TableRow[2].TableCell[0].P = "updated value"
-	sheet.TableRow[2].TableCell[3].P = "updated value"
+	// Read cell value
+	sales := doc.SheetByName("Sales")
+	cell := sales.Cell(0, 1)
+	text, _ := cell.String()
+	fmt.Println("A2 Value:", text)
 
-	// Updating metadata
-	data.Meta.Meta.DocumentStatistic.CellCount = "1000"
+	// Write data to a new sheet
+	sheet := doc.AddSheet("Example")
+	sheet.Cell(0, 0).Set("Styled")
+	sheet.Cell(1, 0).Set(5)
+	sheet.Cell(1, 1).Set(10)
+	sheet.Cell(2, 0).SetFormula("SUM(A2:B2)")
+	sheet.Cell(3, 0).SetFormula("=TODAY()")
+	sheet.Cell(0, 0).Style().
+		Bold(true).
+		Color("#0088ff").
+		BackgroundColor("#323232").
+		HAlign("center").
+		Apply()
 
-	// Writing new data to the file
-	data.Content.Body.Spreadsheet.Table[1] = sheet
-	if err := ods.Write(path, data, files); err != nil {
+	// Save changes
+	if err := doc.Save(); err != nil {
 		panic(err)
 	}
 }
 ```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/AlexJarrah/go-ods/blob/main/LICENSE) file for details.
