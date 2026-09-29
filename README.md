@@ -16,7 +16,7 @@ Designed to provide a reliable, performant, and simple API for ODS documents. Ar
 ## Installation
 
 ```bash
-go get -u github.com/AlexJarrah/go-ods
+go get github.com/AlexJarrah/go-ods/v2
 ```
 
 ## Example
@@ -27,7 +27,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/AlexJarrah/go-ods"
+	"github.com/AlexJarrah/go-ods/v2"
 )
 
 func main() {
