@@ -232,7 +232,7 @@ func (d *Document) Sheet(index int) *Sheet {
 		return &Sheet{doc: d, index: -1}
 	}
 	for len(d.content.Body.Spreadsheet.Table) <= index {
-		d.content.Body.Spreadsheet.Table = append(d.content.Body.Spreadsheet.Table, d.newSheetTable(fmt.Sprintf(defaultSheetNameFormat, len(d.content.Body.Spreadsheet.Table)+1)))
+		d.content.Body.Spreadsheet.Table = append(d.content.Body.Spreadsheet.Table, newTable(fmt.Sprintf(defaultSheetNameFormat, len(d.content.Body.Spreadsheet.Table)+1)))
 		d.contentDirty = true
 	}
 	return &Sheet{doc: d, index: index}
@@ -260,7 +260,7 @@ func (d *Document) AddSheet(name string) *Sheet {
 		return &Sheet{index: -1}
 	}
 	name = coalesce(name, fmt.Sprintf(defaultSheetNameFormat, len(d.content.Body.Spreadsheet.Table)+1))
-	d.content.Body.Spreadsheet.Table = append(d.content.Body.Spreadsheet.Table, d.newSheetTable(name))
+	d.content.Body.Spreadsheet.Table = append(d.content.Body.Spreadsheet.Table, newTable(name))
 	d.contentDirty = true
 	return &Sheet{doc: d, index: len(d.content.Body.Spreadsheet.Table) - 1}
 }
@@ -388,57 +388,12 @@ func fillMetaNamespaces(m *Meta) {
 	m.Version = coalesce(m.Version, odfVersion)
 }
 
-// newTable creates a default Table with the standard ODS dimensions
-// compressed into repeated entries.
+// newTable creates a new Table with the standard ODS dimensions compressed
+// into repeated entries.
 func newTable(name string) Table {
 	return Table{
 		Name:        name,
 		TableColumn: []TableColumn{{NumberColumnsRepeated: defaultColumnRepeat}},
 		TableRow:    []TableRow{{NumberRowsRepeated: defaultRowRepeat, TableCell: []TableCell{{NumberColumnsRepeated: defaultColumnRepeat}}}},
 	}
-}
-
-// newSheetTable creates a new table that inherits structural styles from the
-// document's first sheet, or falls back to newTable defaults if no sheets exist.
-func (d *Document) newSheetTable(name string) Table {
-	if len(d.content.Body.Spreadsheet.Table) == 0 {
-		return newTable(name)
-	}
-
-	template := d.content.Body.Spreadsheet.Table[0]
-	table := Table{
-		Name:      name,
-		StyleName: template.StyleName,
-	}
-
-	if len(template.TableColumn) > 0 {
-		col := template.TableColumn[0]
-		col.NumberColumnsRepeated = ""
-		table.TableColumn = []TableColumn{col}
-	}
-
-	if len(template.TableRow) > 0 {
-		row := template.TableRow[0]
-		row.NumberRowsRepeated = ""
-
-		if len(row.TableCell) > 0 {
-			cell := row.TableCell[0]
-			cell.NumberColumnsRepeated = ""
-			row.TableCell = []TableCell{cell}
-		} else {
-			row.TableCell = []TableCell{{}}
-		}
-
-		table.TableRow = []TableRow{row}
-	}
-
-	if len(table.TableColumn) == 0 {
-		table.TableColumn = []TableColumn{{}}
-	}
-
-	if len(table.TableRow) == 0 {
-		table.TableRow = []TableRow{{TableCell: []TableCell{{}}}}
-	}
-
-	return table
 }

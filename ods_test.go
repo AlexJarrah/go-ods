@@ -85,10 +85,10 @@ func TestCreateSaveOpenRoundTrip(t *testing.T) {
 	}
 }
 
-func TestOpenBlankSaveAsPreservesPassthroughAndZipShape(t *testing.T) {
-	src := filepath.Join("tmp", "Blank.ods")
+func TestOpenBlankSaveAsPreservesPartsAndZipShape(t *testing.T) {
+	src := filepath.Join("testdata", "Blank.ods")
 	if _, err := os.Stat(src); err != nil {
-		t.Skip("sample Blank.ods not available")
+		t.Fatalf("testdata/Blank.ods is missing: %v", err)
 	}
 
 	doc, err := Open(src)
@@ -119,25 +119,18 @@ func TestOpenBlankSaveAsPreservesPassthroughAndZipShape(t *testing.T) {
 	originalManifest := zipMember(t, src, zipPathManifest)
 	savedManifest := zipMember(t, dst, zipPathManifest)
 	if savedManifest != originalManifest {
-		t.Fatalf("opened document manifest should be preserved\noriginal:\n%s\nsaved:\n%s", originalManifest, savedManifest)
-	}
-	if !strings.Contains(savedManifest, `manifest:full-path="manifest.rdf" manifest:media-type="application/rdf+xml"`) {
-		t.Fatalf("manifest.rdf media type was not preserved:\n%s", savedManifest)
-	}
-	if !strings.Contains(savedManifest, `manifest:full-path="Thumbnails/thumbnail.png" manifest:media-type="image/png"`) {
-		t.Fatalf("thumbnail media type was not preserved:\n%s", savedManifest)
+		t.Fatalf("manifest should pass through unchanged\noriginal:\n%s\nsaved:\n%s", originalManifest, savedManifest)
 	}
 
+	// The standard document skeleton and the written cell must survive the
+	// edit/save/reopen cycle.
 	content := zipMember(t, dst, zipPathContent)
-	if !strings.Contains(content, `style:name="ta1" style:family="table" style:master-page-name="Default"`) {
-		t.Fatalf("table style master page was not preserved:\n%s", content)
-	}
-	if !strings.Contains(content, `<style:table-properties table:display="true" style:writing-mode="lr-tb"`) {
-		t.Fatalf("table style properties were not preserved:\n%s", content)
-	}
 	for _, want := range []string{
 		`<office:font-face-decls>`,
-		`<table:calculation-settings table:automatic-find-labels="false" table:use-regular-expressions="false" table:use-wildcards="true" table:null-year="1950"`,
+		`<office:automatic-styles>`,
+		`<table:calculation-settings>`,
+		`<table:table table:name="Sheet1">`,
+		`<text:p>sparse</text:p>`,
 		`<table:named-expressions>`,
 	} {
 		if !strings.Contains(content, want) {
@@ -147,12 +140,9 @@ func TestOpenBlankSaveAsPreservesPassthroughAndZipShape(t *testing.T) {
 }
 
 func TestNoopSavePreservesXMLParts(t *testing.T) {
-	src := filepath.Join("tmp", "old.ods")
+	src := filepath.Join("testdata", "Blank.ods")
 	if _, err := os.Stat(src); err != nil {
-		src = filepath.Join("tmp", "Blank.ods")
-	}
-	if _, err := os.Stat(src); err != nil {
-		t.Skip("sample ODS not available")
+		t.Fatalf("testdata/Blank.ods is missing: %v", err)
 	}
 
 	doc, err := Open(src)
@@ -172,12 +162,9 @@ func TestNoopSavePreservesXMLParts(t *testing.T) {
 }
 
 func TestReadOnlyCellAccessPreservesContentXML(t *testing.T) {
-	src := filepath.Join("tmp", "old.ods")
+	src := filepath.Join("testdata", "Blank.ods")
 	if _, err := os.Stat(src); err != nil {
-		src = filepath.Join("tmp", "Blank.ods")
-	}
-	if _, err := os.Stat(src); err != nil {
-		t.Skip("sample ODS not available")
+		t.Fatalf("testdata/Blank.ods is missing: %v", err)
 	}
 
 	doc, err := Open(src)
@@ -196,50 +183,102 @@ func TestReadOnlyCellAccessPreservesContentXML(t *testing.T) {
 	}
 }
 
-func TestAddedSheetInheritsStructuralStyles(t *testing.T) {
-	src := filepath.Join("tmp", "old.ods")
-	if _, err := os.Stat(src); err != nil {
-		src = filepath.Join("tmp", "Blank.ods")
-	}
-	if _, err := os.Stat(src); err != nil {
-		t.Skip("sample ODS not available")
-	}
-
-	doc, err := Open(src)
+func TestNewSheetsAreCompleteDefaults(t *testing.T) {
+	doc, err := Create(filepath.Join(t.TempDir(), "sheets.ods"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	doc.AddSheet("Sales")
-	doc.SheetByName("Sales").Cell(0, 0).Set("Hello")
-	dst := filepath.Join(t.TempDir(), "after-save.ods")
-	if err := doc.SaveAs(dst); err != nil {
-		t.Fatal(err)
+
+	// Give the first sheet data and styles so there is something that a new
+	// sheet could accidentally inherit.
+	first := doc.Sheet(0)
+	first.Cell(0, 0).Set("Hello")
+	first.Cell(0, 0).Style().Bold(true).Apply()
+	first.Cell(1, 0).SetFormula("SUM(A1:A1)")
+	first.Row(0).Style().Height("1cm").Apply()
+	first.Col(0).Style().Width("2cm").Apply()
+
+	// Both creation paths must create completely new sheets.
+	cases := []struct {
+		sheet *Sheet
+		name  string
+	}{
+		{doc.Sheet(1), "Sheet2"},
+		{doc.AddSheet("Custom"), "Custom"},
 	}
 
-	content := zipMember(t, dst, zipPathContent)
-	for _, want := range []string{
-		`<table:table table:name="Sales" table:style-name="ta1">`,
-		`<table:table-column table:style-name="co1" table:default-cell-style-name="Default">`,
-		`<table:table-row table:style-name="ro1">`,
-	} {
-		if !strings.Contains(content, want) {
-			t.Fatalf("added sheet did not preserve structural style %q:\n%s", want, content)
+	for _, tc := range cases {
+		sheet, name := tc.sheet, tc.name
+		if got := sheet.Name(); got != name {
+			t.Fatalf("new sheet name = %q, want %q", got, name)
+		}
+		if got := sheet.RowCount(); got != 0 {
+			t.Fatalf("new sheet %q row count = %d, want 0", name, got)
+		}
+		if got := sheet.ColCount(); got != 0 {
+			t.Fatalf("new sheet %q col count = %d, want 0", name, got)
+		}
+		if got, err := sheet.Cell(0, 0).String(); err != nil || got != "" {
+			t.Fatalf("new sheet %q A1 = %q, %v; want empty", name, got, err)
+		}
+		if got, err := sheet.Cell(0, 0).Formula(); err != nil || got != "" {
+			t.Fatalf("new sheet %q A1 formula = %q, %v; want empty", name, got, err)
+		}
+
+		table := sheet.table()
+		if table.StyleName != "" {
+			t.Fatalf("new sheet %q inherited table style %q", name, table.StyleName)
+		}
+		for _, col := range table.TableColumn {
+			if col.StyleName != "" || col.DefaultCellStyleName != "" {
+				t.Fatalf("new sheet %q inherited column style: %#v", name, col)
+			}
+		}
+		for _, row := range table.TableRow {
+			if row.StyleName != "" {
+				t.Fatalf("new sheet %q inherited row style %q", name, row.StyleName)
+			}
+			for _, cell := range row.TableCell {
+				if !cellIsEmpty(cell) {
+					t.Fatalf("new sheet %q inherited cell content: %#v", name, cell)
+				}
+			}
 		}
 	}
 
-	settings := zipMember(t, dst, zipPathSettings)
-	if !strings.Contains(settings, `<config:config-item-map-entry config:name="Sales">`) {
-		t.Fatalf("settings.xml was not synced for added sheet:\n%s", settings)
+	if err := doc.Err(); err != nil {
+		t.Fatalf("unexpected document error: %v", err)
+	}
+}
+
+func TestAutoCreatedRowsAreDefaultRows(t *testing.T) {
+	doc, err := Create(filepath.Join(t.TempDir(), "rows.ods"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Style row 0 so a new row could accidentally inherit its style name.
+	doc.Sheet(0).Row(0).Style().Height("1cm").Apply()
+
+	table := &doc.content.Body.Spreadsheet.Table[0]
+	row := ensureRow(table, 5)
+	if got := row.StyleName; got != "" {
+		t.Fatalf("newly created row inherited style %q, want none", got)
+	}
+	for i, r := range table.TableRow {
+		if i == 0 {
+			continue // row 0 keeps its explicit style
+		}
+		if r.StyleName != "" {
+			t.Fatalf("row %d inherited style %q, want none", i, r.StyleName)
+		}
 	}
 }
 
 func TestMetadataStatisticsTrackSavedContent(t *testing.T) {
-	src := filepath.Join("tmp", "old.ods")
+	src := filepath.Join("testdata", "Blank.ods")
 	if _, err := os.Stat(src); err != nil {
-		src = filepath.Join("tmp", "Blank.ods")
-	}
-	if _, err := os.Stat(src); err != nil {
-		t.Skip("sample ODS not available")
+		t.Fatalf("testdata/Blank.ods is missing: %v", err)
 	}
 
 	doc, err := Open(src)

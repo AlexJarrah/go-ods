@@ -75,13 +75,8 @@ func ensureRow(table *Table, rowIndex int) *TableRow {
 		logical += repeat
 	}
 
-	template := TableRow{}
-	if len(table.TableRow) > 0 {
-		template.StyleName = table.TableRow[0].StyleName
-	}
-
 	for logical <= rowIndex {
-		table.TableRow = append(table.TableRow, template)
+		table.TableRow = append(table.TableRow, TableRow{})
 		logical++
 	}
 
